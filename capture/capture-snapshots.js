@@ -71,7 +71,7 @@ const PAGES = [
   { slug: 'cellpose-result', path: '/particlelengthcellpose', title: 'Cellpose粒径分析·详细结果(真实结果)', interact: 'result' },
   { slug: 'battery-result', path: '/batteryparticle', title: '电池颗粒分析·详细结果(真实结果)', interact: 'result' },
   // 文献:上传态=literature 基础页;结果态=真实解析文献查看器(供文献页改造参考)
-  { slug: 'literature-result', path: '/literature/parse', title: '文献解析·结果查看(真实文献)', steps: [{ tab: '进度', wait: 2500 }, { button: '查看', wait: 8000 }] },
+  { slug: 'literature-result', path: '/literature/parse', title: '文献解析·结果查看(真实文献)', steps: [{ step: '进度', wait: 2500 }, { button: '查看', wait: 8000 }] },
   // ── 二级 UI(按钮后面的弹窗/抽屉),steps 顺序执行:button=点按钮文案,
   //    tab=切 n-tabs,option=点下拉项,css=点选择器,fill=填输入框(fillCss 定位) ──
   { slug: 'chat-workspace-files', path: '/chat', title: 'AI研发助手·工作区文件弹窗', steps: [{ button: '工作区文件', wait: 3000 }] },
@@ -82,7 +82,7 @@ const PAGES = [
   { slug: 'skills-detail', path: '/skills/workshop', title: '技能工坊·技能详情弹窗', steps: [{ button: '查看', wait: 2500 }] },
   { slug: 'experience-detail', path: '/experience-center/library', title: '经验库·经验详情弹窗', steps: [{ css: '.entry-card', wait: 2500 }] },
   { slug: 'feedback-new', path: '/feedback/feedback-board', title: '问题反馈·提交反馈弹窗', steps: [{ button: '提反馈', wait: 1500 }] },
-  { slug: 'literature-progress', path: '/literature/parse', title: '文献解析·进度列表', steps: [{ tab: '进度', wait: 3000 }] },
+  { slug: 'literature-progress', path: '/literature/parse', title: '文献解析·进度列表', steps: [{ step: '进度', wait: 3000 }] },
   { slug: 'lineage-dossier', path: '/lineage/tree', title: '关联树·批次档案(四域钻取,真实数据)', steps: [{ fill: 'CAM', fillCss: '.gx-search input' }, { button: '定位', wait: 3000 }, { css: '.gx-result-batch', wait: 7000 }] },
 ]
 
@@ -90,6 +90,7 @@ async function runSteps(page, steps) {
   for (const s of steps) {
     if (s.fill != null) await page.locator(s.fillCss || 'input').first().fill(s.fill)
     else if (s.tab) await page.locator('.n-tabs-tab', { hasText: s.tab }).first().click()
+    else if (s.step) await page.locator('.step-bar .step', { hasText: s.step }).first().click()
     else if (s.button)
       await page.locator('button:not([disabled])', { hasText: s.button }).first().click()
     else if (s.option) await page.locator('.n-dropdown-option', { hasText: s.option }).first().click()
