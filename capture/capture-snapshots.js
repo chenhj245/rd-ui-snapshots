@@ -305,6 +305,13 @@ function buildScrubber(users) {
       await page.goto(BASE + p.path, { waitUntil: 'domcontentloaded' })
       await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {})
       await page.waitForTimeout(3500) // 图表/异步接口
+      // 关掉「首次进入自动展开」的操作说明抽屉:快照浏览器每轮都是新 profile,
+      // 每页都会触发自动展开,把右侧内容盖住 → Claude Design 误读为"右栏没删"
+      // 用 Esc 关(点 X 会在抽屉收起后穿透点到下层元素,曾误开头像菜单)
+      if (await page.locator('.n-drawer:visible').count().catch(() => 0)) {
+        await page.keyboard.press('Escape')
+        await page.waitForTimeout(400)
+      }
       if (p.interact) await runInteraction(page, p.interact)
       if (p.steps) await runSteps(page, p.steps)
       // 触发懒加载再回顶
