@@ -65,7 +65,32 @@ const PAGES = [
   { slug: 'porosity-result', path: '/porosity', title: '孔隙率分析·详细结果(真实结果)', interact: 'result' },
   { slug: 'cellpose-result', path: '/particlelengthcellpose', title: 'Cellpose粒径分析·详细结果(真实结果)', interact: 'result' },
   { slug: 'battery-result', path: '/batteryparticle', title: '电池颗粒分析·详细结果(真实结果)', interact: 'result' },
+  // ── 二级 UI(按钮后面的弹窗/抽屉),steps 顺序执行:button=点按钮文案,
+  //    tab=切 n-tabs,option=点下拉项,css=点选择器,fill=填输入框(fillCss 定位) ──
+  { slug: 'chat-workspace-files', path: '/chat', title: 'AI研发助手·工作区文件弹窗', steps: [{ button: '工作区文件', wait: 3000 }] },
+  { slug: 'chat-ai-tasks', path: '/chat', title: 'AI研发助手·定时任务弹窗', steps: [{ button: '更多' }, { option: '定时任务', wait: 2500 }] },
+  { slug: 'chat-scenarios', path: '/chat', title: 'AI研发助手·场景灵感抽屉', steps: [{ button: '更多' }, { option: '场景灵感', wait: 1500 }] },
+  { slug: 'chat-kb-scope', path: '/chat', title: 'AI研发助手·知识库范围弹窗', steps: [{ button: '知识库范围', wait: 2500 }] },
+  { slug: 'tools-wizard', path: '/tools/workshop', title: '工具工坊·新建工具向导', steps: [{ button: '新建工具', wait: 1500 }] },
+  { slug: 'skills-detail', path: '/skills/workshop', title: '技能工坊·技能详情弹窗', steps: [{ button: '查看', wait: 2500 }] },
+  { slug: 'experience-detail', path: '/experience-center/library', title: '经验库·经验详情弹窗', steps: [{ css: '.entry-card', wait: 2500 }] },
+  { slug: 'feedback-new', path: '/feedback/feedback-board', title: '问题反馈·提交反馈弹窗', steps: [{ button: '提反馈', wait: 1500 }] },
+  { slug: 'literature-progress', path: '/literature/parse', title: '文献解析·进度列表', steps: [{ tab: '进度', wait: 3000 }] },
+  { slug: 'lineage-dossier', path: '/lineage/tree', title: '关联树·批次档案(四域钻取,真实数据)', steps: [{ fill: 'CAM', fillCss: '.gx-search input' }, { button: '定位', wait: 3000 }, { css: '.gx-result-batch', wait: 7000 }] },
 ]
+
+async function runSteps(page, steps) {
+  for (const s of steps) {
+    if (s.fill != null) await page.locator(s.fillCss || 'input').first().fill(s.fill)
+    else if (s.tab) await page.locator('.n-tabs-tab', { hasText: s.tab }).first().click()
+    else if (s.button)
+      await page.locator('button:not([disabled])', { hasText: s.button }).first().click()
+    else if (s.option) await page.locator('.n-dropdown-option', { hasText: s.option }).first().click()
+    else if (s.css) await page.locator(s.css).first().click()
+    await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {})
+    await page.waitForTimeout(s.wait || 1200)
+  }
+}
 
 // ── 交互态:进入「进度查看」/「详细结果」再快照 ──────────────────────────
 // progress = 切到进度 tab(真实任务表);result = 进度 tab 点第一条已完成任务的
@@ -265,6 +290,7 @@ function buildScrubber(users) {
       await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {})
       await page.waitForTimeout(3500) // 图表/异步接口
       if (p.interact) await runInteraction(page, p.interact)
+      if (p.steps) await runSteps(page, p.steps)
       // 触发懒加载再回顶
       await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
       await page.waitForTimeout(600)
