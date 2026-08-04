@@ -62,9 +62,16 @@ const PAGES = [
   { slug: 'other-sync', path: '/data_entry/other_sync', title: '其他系统入库' },
   // ── 交互态(图像分析页三步流的后两步,带真实任务/真实结果) ──────────
   { slug: 'porosity-progress', path: '/porosity', title: '孔隙率分析·进度查看', interact: 'progress' },
+  // 七个分析方法:基础页=上传态(两栏定稿),以下为各自的详细结果(真实已完成任务)
   { slug: 'porosity-result', path: '/porosity', title: '孔隙率分析·详细结果(真实结果)', interact: 'result' },
+  { slug: 'spheresity-result', path: '/spheresity', title: '球形度分析·详细结果(真实结果)', interact: 'result' },
+  { slug: 'primaryparticle-result', path: '/primaryparticle', title: '一次粒子分析·详细结果(真实结果)', interact: 'result' },
+  { slug: 'crackparticle-result', path: '/crackparticle', title: '开裂颗粒分析·详细结果(真实结果)', interact: 'result' },
+  { slug: 'singlecrystal-result', path: '/singlecrystalparticle', title: '单晶颗粒分析·详细结果(真实结果)', interact: 'result' },
   { slug: 'cellpose-result', path: '/particlelengthcellpose', title: 'Cellpose粒径分析·详细结果(真实结果)', interact: 'result' },
   { slug: 'battery-result', path: '/batteryparticle', title: '电池颗粒分析·详细结果(真实结果)', interact: 'result' },
+  // 文献:上传态=literature 基础页;结果态=真实解析文献查看器(供文献页改造参考)
+  { slug: 'literature-result', path: '/literature/parse', title: '文献解析·结果查看(真实文献)', steps: [{ tab: '进度', wait: 2500 }, { button: '查看', wait: 8000 }] },
   // ── 二级 UI(按钮后面的弹窗/抽屉),steps 顺序执行:button=点按钮文案,
   //    tab=切 n-tabs,option=点下拉项,css=点选择器,fill=填输入框(fillCss 定位) ──
   { slug: 'chat-workspace-files', path: '/chat', title: 'AI研发助手·工作区文件弹窗', steps: [{ button: '工作区文件', wait: 3000 }] },
@@ -96,7 +103,10 @@ async function runSteps(page, steps) {
 // progress = 切到进度 tab(真实任务表);result = 进度 tab 点第一条已完成任务的
 // 「打开」进入详细结果(真实图表/统计)。三种结果组件(通用/Cellpose/电池)各抓一份。
 async function runInteraction(page, kind) {
-  await page.locator('.n-tabs-tab', { hasText: '进度查看' }).first().click()
+  // 图像分析页 2026-08-04 起为步骤条(.step-bar);先关自动弹出的操作说明抽屉
+  await page.locator('.n-drawer .n-base-close').first().click({ timeout: 3000 }).catch(() => {})
+  await page.waitForTimeout(300)
+  await page.locator('.step-bar .step', { hasText: '进度查看' }).first().click()
   await page.waitForSelector('.n-data-table tbody tr', { timeout: 20000 })
   await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {})
   await page.waitForTimeout(1500)
@@ -310,7 +320,12 @@ function buildScrubber(users) {
     }
   }
 
-  // 索引页
+  // 索引页(SNAP_ONLY 单页补抓时不重写,避免把完整索引冲掉)
+  if (only) {
+    await browser.close()
+    console.log('\n单页补抓完成(索引未动)→ ' + OUT)
+    return
+  }
   const rows = results
     .map((r) =>
       r.error
