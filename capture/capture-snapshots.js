@@ -232,7 +232,10 @@ function buildScrubber(users) {
 
   // ── 登录页快照:独立无登录态 context,避免带 session 抓成跳转页 ──
   {
-    const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+    const ctx = await browser.newContext({
+      viewport: { width: 1440, height: 900 },
+      ignoreHTTPSErrors: true,
+    })
     const p = await ctx.newPage()
     await p.goto(BASE + '/login', { waitUntil: 'networkidle' })
     await p.waitForTimeout(1500)
@@ -242,7 +245,10 @@ function buildScrubber(users) {
     await ctx.close()
   }
 
-  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } })
+  const page = await browser.newPage({
+    viewport: { width: 1440, height: 900 },
+    ignoreHTTPSErrors: true, // 本机 live(https://localhost)为自签证书
+  })
 
   // 登录
   await page.goto(BASE + '/login', { waitUntil: 'networkidle' })
