@@ -9,6 +9,7 @@
 |---|---|
 | `site/index.html` | 索引页,链到全部 31 个页面 |
 | `site/pages/*.html` | 每页一个自包含 HTML:登录后真实渲染的 DOM,样式已内联、canvas 图表转位图、脚本已剥离。**不可交互**,纯视觉参考 |
+| `site/pages/*-progress.html` / `*-result.html` | **交互态快照**:图像分析页三步流(上传→进度查看→详细结果)的后两步,含真实任务表与真实分析结果(SEM 图/统计图表);结果态覆盖三种结果组件(孔隙率=通用版 / Cellpose / 电池) |
 | `site/shots/*.png` | 每页整页截图(与 HTML 同名),快速浏览用 |
 | `capture/capture-snapshots.js` | 快照流水线脚本,可重跑(`node capture-snapshots.js`,需 playwright-core + Chrome) |
 

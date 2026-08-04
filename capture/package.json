@@ -1,5 +1,7 @@
 {
   "name": "rd-ui-snapshots-capture",
   "private": true,
-  "dependencies": { "playwright-core": "^1.54.0" }
+  "dependencies": {
+    "playwright-core": "^1.62.1"
+  }
 }

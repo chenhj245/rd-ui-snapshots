@@ -27,7 +27,7 @@ if (!PASS) {
   console.error('缺少 SNAP_PASS 环境变量(不提供默认密码,避免凭据进仓库)')
   process.exit(1)
 }
-const OUT = path.resolve(__dirname, 'site')
+const OUT = process.env.SNAP_OUT || path.resolve(__dirname, '..', 'site')
 
 const PAGES = [
   { slug: 'workbench', path: '/workbench', title: '工作台(首页)' },
@@ -60,7 +60,28 @@ const PAGES = [
   { slug: 'factor', path: '/lineage/factor', title: '数据图谱·因子分析' },
   { slug: 'data-entry-form', path: '/data_entry/experiment_form', title: '实验单填写' },
   { slug: 'other-sync', path: '/data_entry/other_sync', title: '其他系统入库' },
+  // ── 交互态(图像分析页三步流的后两步,带真实任务/真实结果) ──────────
+  { slug: 'porosity-progress', path: '/porosity', title: '孔隙率分析·进度查看', interact: 'progress' },
+  { slug: 'porosity-result', path: '/porosity', title: '孔隙率分析·详细结果(真实结果)', interact: 'result' },
+  { slug: 'cellpose-result', path: '/particlelengthcellpose', title: 'Cellpose粒径分析·详细结果(真实结果)', interact: 'result' },
+  { slug: 'battery-result', path: '/batteryparticle', title: '电池颗粒分析·详细结果(真实结果)', interact: 'result' },
 ]
+
+// ── 交互态:进入「进度查看」/「详细结果」再快照 ──────────────────────────
+// progress = 切到进度 tab(真实任务表);result = 进度 tab 点第一条已完成任务的
+// 「打开」进入详细结果(真实图表/统计)。三种结果组件(通用/Cellpose/电池)各抓一份。
+async function runInteraction(page, kind) {
+  await page.locator('.n-tabs-tab', { hasText: '进度查看' }).first().click()
+  await page.waitForSelector('.n-data-table tbody tr', { timeout: 20000 })
+  await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {})
+  await page.waitForTimeout(1500)
+  if (kind === 'result') {
+    await page.locator('button:not([disabled])', { hasText: '打开' }).first().click()
+    // 结果组件拉图片/画图表,多等一会
+    await page.waitForLoadState('networkidle', { timeout: 20000 }).catch(() => {})
+    await page.waitForTimeout(5000)
+  }
+}
 
 // ── 序列化:在页面上下文里把当前 DOM 变成自包含 HTML ────────────────────
 async function serializePage(page) {
@@ -243,6 +264,7 @@ function buildScrubber(users) {
       await page.goto(BASE + p.path, { waitUntil: 'domcontentloaded' })
       await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {})
       await page.waitForTimeout(3500) // 图表/异步接口
+      if (p.interact) await runInteraction(page, p.interact)
       // 触发懒加载再回顶
       await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
       await page.waitForTimeout(600)
