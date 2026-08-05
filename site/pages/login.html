@@ -1548,7 +1548,7 @@ textarea {
   border: none;
   resize: none;
 }
-</style><style type="text/css" data-vite-dev-id="/__uno.css">__uno_hash_665519{--:'';}/* layer: preflights */
+</style><style type="text/css" data-vite-dev-id="/__uno.css">__uno_hash_4ac4e4{--:'';}/* layer: preflights */
 *,::before,::after{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-pan-x: ;--un-pan-y: ;--un-pinch-zoom: ;--un-scroll-snap-strictness:proximity;--un-ordinal: ;--un-slashed-zero: ;--un-numeric-figure: ;--un-numeric-spacing: ;--un-numeric-fraction: ;--un-border-spacing-x:0;--un-border-spacing-y:0;--un-ring-offset-shadow:0 0 rgba(0,0,0,0);--un-ring-shadow:0 0 rgba(0,0,0,0);--un-shadow-inset: ;--un-shadow:0 0 rgba(0,0,0,0);--un-ring-inset: ;--un-ring-offset-width:0px;--un-ring-offset-color:#fff;--un-ring-width:0px;--un-ring-color:rgba(147,197,253,0.5);--un-blur: ;--un-brightness: ;--un-contrast: ;--un-drop-shadow: ;--un-grayscale: ;--un-hue-rotate: ;--un-invert: ;--un-saturate: ;--un-sepia: ;--un-backdrop-blur: ;--un-backdrop-brightness: ;--un-backdrop-contrast: ;--un-backdrop-grayscale: ;--un-backdrop-hue-rotate: ;--un-backdrop-invert: ;--un-backdrop-opacity: ;--un-backdrop-saturate: ;--un-backdrop-sepia: ;}::backdrop{--un-rotate:0;--un-rotate-x:0;--un-rotate-y:0;--un-rotate-z:0;--un-scale-x:1;--un-scale-y:1;--un-scale-z:1;--un-skew-x:0;--un-skew-y:0;--un-translate-x:0;--un-translate-y:0;--un-translate-z:0;--un-pan-x: ;--un-pan-y: ;--un-pinch-zoom: ;--un-scroll-snap-strictness:proximity;--un-ordinal: ;--un-slashed-zero: ;--un-numeric-figure: ;--un-numeric-spacing: ;--un-numeric-fraction: ;--un-border-spacing-x:0;--un-border-spacing-y:0;--un-ring-offset-shadow:0 0 rgba(0,0,0,0);--un-ring-shadow:0 0 rgba(0,0,0,0);--un-shadow-inset: ;--un-shadow:0 0 rgba(0,0,0,0);--un-ring-inset: ;--un-ring-offset-width:0px;--un-ring-offset-color:#fff;--un-ring-width:0px;--un-ring-color:rgba(147,197,253,0.5);--un-blur: ;--un-brightness: ;--un-contrast: ;--un-drop-shadow: ;--un-grayscale: ;--un-hue-rotate: ;--un-invert: ;--un-saturate: ;--un-sepia: ;--un-backdrop-blur: ;--un-backdrop-brightness: ;--un-backdrop-contrast: ;--un-backdrop-grayscale: ;--un-backdrop-hue-rotate: ;--un-backdrop-invert: ;--un-backdrop-opacity: ;--un-backdrop-saturate: ;--un-backdrop-sepia: ;}
 /* layer: shortcuts */
 .wh-full,
@@ -1558,7 +1558,9 @@ textarea {
 .flex-col,
 [flex-col=""]{display:flex;flex-direction:column;}
 /* layer: default */
+[select~="\$emit\("]{user-select:var(--emit\();}
 .absolute{position:absolute;}
+.fixed{position:fixed;}
 .relative{position:relative;}
 .bottom-0{bottom:0;}
 [bottom~="\32 0"]{bottom:5rem;}
@@ -1567,8 +1569,11 @@ textarea {
 .top-0{top:0;}
 .grid{display:grid;}
 .m-auto{margin:auto;}
+.m\[String\(row\.item\)\.trim\(\)\]{margin:String(row.item).trim();}
 .mx-5{margin-left:1.25rem;margin-right:1.25rem;}
 .my-4{margin-top:1rem;margin-bottom:1rem;}
+.mb-15,
+[mb-15=""]{margin-bottom:3.75rem;}
 .ml-10,
 [ml-10=""]{margin-left:2.5rem;}
 .ml-2,
@@ -1587,6 +1592,8 @@ textarea {
 [mt-15=""]{margin-top:3.75rem;}
 [mt-20=""]{margin-top:5rem;}
 [mt-30=""]{margin-top:7.5rem;}
+.inline{display:inline;}
+.block{display:block;}
 .inline-block{display:inline-block;}
 .hidden,
 [hidden=""]{display:none;}
@@ -1599,6 +1606,8 @@ textarea {
 .max-w-150,
 [max-w-150=""]{max-width:37.5rem;}
 .max-w-1500{max-width:375rem;}
+.min-h-45,
+[min-h-45=""]{min-height:11.25rem;}
 .min-w-0,
 [min-w-0=""]{min-width:0;}
 .min-w-345{min-width:86.25rem;}
@@ -1624,16 +1633,20 @@ textarea {
 [cursor-pointer=""]{cursor:pointer;}
 .items-center,
 [items-center=""]{align-items:center;}
+.justify-between,
+[justify-between=""]{justify-content:space-between;}
 .overflow-hidden,
 [overflow-hidden=""]{overflow:hidden;}
 .truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.b,
 .border{border-width:1px;}
 .border-0,
 .dark [dark~="border-0"]{border-width:0;}
 .border-b{border-bottom-width:1px;}
 .border-t{border-top-width:1px;}
 .border-gray-300{--un-border-opacity:1;border-color:rgba(209,213,219,var(--un-border-opacity));}
-.rounded-10{border-radius:2.5rem;}
+.rounded-10,
+[rounded-10=""]{border-radius:2.5rem;}
 .rounded-4{border-radius:1rem;}
 .rounded-5,
 [rounded-5=""]{border-radius:1.25rem;}
@@ -1653,11 +1666,22 @@ textarea {
 .bg-opacity-60{--un-bg-opacity:0.6;}
 .bg-cover,
 [bg-cover=""]{background-size:cover;}
+[stroke-width~="\31 "]{stroke-width:1px;}
+[stroke-width~="\31 \.5"]{stroke-width:1.5px;}
+[stroke-width~="\32 "]{stroke-width:2px;}
 [stroke-width~="\32 \.2"]{stroke-width:2.2px;}
+[stroke-width~="\33 2"]{stroke-width:32px;}
+[stroke~="\#2563eb"]{--un-stroke-opacity:1;stroke:rgba(37,99,235,var(--un-stroke-opacity));}
+[stroke~="\#bbb"]{--un-stroke-opacity:1;stroke:rgba(187,187,187,var(--un-stroke-opacity));}
+[stroke~="\#eef1fa"]{--un-stroke-opacity:1;stroke:rgba(238,241,250,var(--un-stroke-opacity));}
+[stroke~="\#f0f2f8"]{--un-stroke-opacity:1;stroke:rgba(240,242,248,var(--un-stroke-opacity));}
+[stroke~="none"]{stroke:none;}
 .p-15{padding:3.75rem;}
 .px,
-.px-4{padding-left:1rem;padding-right:1rem;}
-.px-15{padding-left:3.75rem;padding-right:3.75rem;}
+.px-4,
+[px=""]{padding-left:1rem;padding-right:1rem;}
+.px-15,
+[px-15=""]{padding-left:3.75rem;padding-right:3.75rem;}
 .px-20,
 [px-20=""]{padding-left:5rem;padding-right:5rem;}
 .py-35,
@@ -1670,17 +1694,35 @@ textarea {
 [text-14=""]{font-size:3.5rem;}
 .text-16,
 [text-16=""]{font-size:4rem;}
+.text-22,
+[text-22=""]{font-size:5.5rem;}
 .text-300,
 [text-300=""]{font-size:75rem;}
 .text-36,
 [text-36=""]{font-size:9rem;}
+[font-size~="\31 0"]{font-size:2.5rem;}
+[font-size~="\31 1"]{font-size:2.75rem;}
 .font-bold,
 [font-bold=""]{font-weight:700;}
+.font-normal,
+[font-normal=""]{font-weight:400;}
+.uppercase{text-transform:uppercase;}
+.italic{font-style:italic;}
+.tabular-nums{--un-numeric-spacing:tabular-nums;font-variant-numeric:var(--un-ordinal) var(--un-slashed-zero) var(--un-numeric-figure) var(--un-numeric-spacing) var(--un-numeric-fraction);}
+[color~="\#2563eb"]{--un-text-opacity:1;color:rgba(37,99,235,var(--un-text-opacity));}
 [color~="\#6a6a6a"]{--un-text-opacity:1;color:rgba(106,106,106,var(--un-text-opacity));}
+[color~="\#c0c0c0"]{--un-text-opacity:1;color:rgba(192,192,192,var(--un-text-opacity));}
+[color~="\#ddd"]{--un-text-opacity:1;color:rgba(221,221,221,var(--un-text-opacity));}
 .color-primary,
 [color-primary=""]{color:var(--primary-color);}
 .hover\:color-primary:hover{color:var(--primary-color);}
 .text-gray-500{--un-text-opacity:1;color:rgba(107,114,128,var(--un-text-opacity));}
+.text-hex-333,
+[text-hex-333=""]{--un-text-opacity:1;color:rgba(51,51,51,var(--un-text-opacity));}
+.dark [dark\:text-hex-ccc=""]{--un-text-opacity:1;color:rgba(204,204,204,var(--un-text-opacity));}
+.dark .dark\:text-hex-ccc\>{color:#ccc>;}
+.underline{text-decoration-line:underline;}
+.tab{-moz-tab-size:4;-o-tab-size:4;tab-size:4;}
 .transition{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms;}
 .ease,
 .ease-in-out{transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);}
@@ -1688,6 +1730,8 @@ textarea {
 [placeholder~="\$t\("]::placeholder{color:var(--t\();}
 @keyframes __un_qm{0%{box-shadow:inset 4px 4px #ff1e90, inset -4px -4px #ff1e90}100%{box-shadow:inset 8px 8px #3399ff, inset -8px -8px #3399ff}}
 .\?{animation:__un_qm 0.5s ease-in-out alternate infinite;}
+@keyframes __un_qm{0%{box-shadow:inset 4px 4px #ff1e90, inset -4px -4px #ff1e90}100%{box-shadow:inset 8px 8px #3399ff, inset -8px -8px #3399ff}}
+[\?=""]{animation:__un_qm 0.5s ease-in-out alternate infinite;}
 .bc-eee{border-color:#eee;}
 .card-shadow{box-shadow:0 1px 2px -2px #00000029, 0 3px 6px #0000001f, 0 5px 12px 4px #00000017;}
 @media (min-width: 640px){
@@ -2119,6 +2163,197 @@ div.upload-panel.up2 {
     flex: none;
     min-height: 0;
   }
+}
+/* ── pp2 参数面板(Claude Design 回稿 2026-08-05,设计项目 shots/_pp2_css.txt)──
+   三段式:头(标题+分隔线)/体(20px 字段流)/脚(分隔线+全宽主按钮+红字缺项)。
+   覆盖层写法:选择器带 .section-block 提专一性,压过组件 scoped 同名规则。 */
+.section-block.up2-params {
+  padding: 0;
+  gap: 0;
+  border-radius: 12px;
+  border-color: #ececf0;
+  overflow: hidden;
+}
+
+.up2-params > .section-title {
+  padding: 15px 20px;
+  border-bottom: 1px solid #f1f3f5;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1f2225;
+  letter-spacing: 0;
+}
+
+.up2-params > .section-title svg,
+.up2-params > .section-title .n-icon {
+  width: 17px;
+  height: 17px;
+  font-size: 17px;
+  color: #6b7280;
+  flex: none;
+}
+
+.up2-params > .param-item,
+.up2-params > .param-collapse,
+.up2-params > .pp-switch-item {
+  margin: 20px 20px 0;
+}
+
+.up2-params > :nth-last-child(2) {
+  margin-bottom: 20px;
+}
+
+.up2-params .param-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.up2-params .req-star {
+  color: #d03050;
+}
+
+/* 下拉 44px 高、圆角 8;错误态红边 */
+.up2-params .n-base-selection,
+.up2-params .n-base-selection .n-base-selection-label {
+  min-height: 44px;
+  border-radius: 8px;
+}
+
+.up2-params .n-base-selection .n-base-selection-label,
+.up2-params .n-base-selection .n-base-selection-input {
+  height: 44px;
+  font-size: 14px;
+}
+
+.up2-params .n-base-selection-placeholder__inner {
+  color: #c2c7cf;
+}
+
+.up2-params .method-required-hint {
+  font-size: 12.5px;
+  color: #d03050;
+  margin-top: 1px;
+}
+
+.up2-params .param-note,
+.up2-params .model-desc-line,
+.up2-params .param-item .n-text {
+  font-size: 12.5px !important;
+  color: #9aa0a8 !important;
+  line-height: 1.55;
+}
+
+/* 单选组 → 分段控件:灰底轨道+白色活动药丸+蓝字 */
+.up2-params .radio-row {
+  display: flex;
+  gap: 0;
+  background: #eef0f3;
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.up2-params .radio-row .n-radio {
+  flex: 1;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.15s;
+}
+
+.up2-params .radio-row .n-radio .n-radio__dot-wrapper {
+  /* 视觉隐藏但保留原生 input 的键盘焦点与可达性(Codex finding) */
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.up2-params .radio-row .n-radio .n-radio__label {
+  padding: 0;
+  font-size: 14px;
+  color: #8a9099;
+}
+
+.up2-params .radio-row .n-radio--checked {
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.up2-params .radio-row .n-radio--checked .n-radio__label {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+/* 开关字段:开关左、标签/注释右两行 */
+.up2-params .pp-switch-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.up2-params .pp-switch-item .n-switch {
+  flex: none;
+  margin-top: 1px;
+}
+
+.up2-params .pp-switch-item .param-label {
+  line-height: 24px;
+}
+
+/* 高级参数:一行摘要头,去箱型底色 */
+.up2-params .param-collapse {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+
+.up2-params .param-collapse .n-collapse-item__header-main {
+  font-size: 13.5px;
+  color: #8a9099;
+}
+
+.up2-params .param-collapse .n-collapse-item__header-main:hover {
+  color: #2563eb;
+}
+
+.up2-params .pp-adv-t {
+  color: inherit;
+}
+
+.up2-params .pp-adv-s {
+  color: #b3b9c0;
+  margin-left: 7px;
+  font-weight: 400;
+}
+
+/* 底部:分隔线+全宽 46px 主按钮+红字缺项 */
+.up2-params > .up2-foot {
+  margin-top: auto;
+  padding: 16px 20px 12px;
+  border-top: 1px solid #f1f3f5;
+}
+
+.up2-foot .n-button {
+  height: 46px;
+  border-radius: 9px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.up2-foot .pp-count {
+  font-size: 13px;
+  font-weight: 400;
+  opacity: 0.85;
+  margin-left: 8px;
+}
+
+.up2-params .up2-miss {
+  font-size: 12.5px;
+  color: #d03050;
+  margin-top: 10px;
 }</style><style type="text/css" data-vite-dev-id="/mnt/newdisk/vue-fastapi-admin/web/src/layout/components/tags/index.vue?vue&amp;type=style&amp;index=0&amp;scoped=2427668f&amp;lang.css">
 .tags-bar[data-v-2427668f] {
   display: flex;
