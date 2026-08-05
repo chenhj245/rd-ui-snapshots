@@ -298,10 +298,11 @@ function buildScrubber(users) {
     }
   })
 
-  const only = process.env.SNAP_ONLY
+  const only = process.env.SNAP_ONLY // 支持逗号列表:SNAP_ONLY=a,b,c
+  const onlySet = only ? new Set(only.split(',').map((s) => s.trim())) : null
   const results = []
   for (const p of PAGES) {
-    if (only && p.slug !== only) continue
+    if (onlySet && !onlySet.has(p.slug)) continue
     try {
       await page.goto(BASE + p.path, { waitUntil: 'domcontentloaded' })
       await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {})
