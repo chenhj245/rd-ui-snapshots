@@ -29,6 +29,13 @@ if (!PASS) {
 }
 const OUT = process.env.SNAP_OUT || path.resolve(__dirname, '..', 'site')
 
+// 因子分析满数据清单(2026-08-07 实测八域全开:电性能/工艺/理化LIMS+LABVIEW/配比/原料)
+const _FACTOR_IDS = [
+  'CAM-H-B10-26010-1-1S', 'CAM-H-B10-26010-4-1S', 'CAM-H-B10-26010-5-1S',
+  'CAM-H-B10-26010-A-2S', 'CAM-H-B10-26010-H-2S', 'CAM-H-B10-26024-2S',
+  'CAM-H-B10-26024-A-2S', 'CAM-H-B10-26024-C-1S', 'CAM-H-B11-26024-1S', 'CAM-H-B11-26024-2S',
+].join(',')
+
 const PAGES = [
   { slug: 'workbench', path: '/workbench', title: '工作台(首页)' },
   { slug: 'overview', path: '/overview', title: '平台概览' },
@@ -84,11 +91,25 @@ const PAGES = [
   { slug: 'feedback-new', path: '/feedback/feedback-board', title: '问题反馈·提交反馈弹窗', steps: [{ button: '提反馈', wait: 1500 }] },
   { slug: 'literature-progress', path: '/literature/parse', title: '文献解析·进度列表', steps: [{ step: '进度', wait: 3000 }] },
   { slug: 'lineage-dossier', path: '/lineage/tree', title: '关联树·批次档案(四域钻取,真实数据)', steps: [{ fill: 'CAM', fillCss: '.gx-search input' }, { button: '定位', wait: 3000 }, { css: '.gx-result-batch', wait: 7000 }] },
+  // ── 因子分析全 UI 态(2026-08-07,给 Claude Design 改稿):满数据清单=八域全开 ──
+  //    _FACTOR_IDS 十批 CAM 家族(电性能/工艺实测+[设计]/理化 LIMS+LABVIEW/配比/原料全亮)
+  { slug: 'factor-table', path: '/lineage/factor', title: '因子分析·数据总览(批次tab+八源状态条)', steps: [{ fill: _FACTOR_IDS, fillCss: '.bl-input input' }, { press: 'Enter', wait: 9000 }] },
+  { slug: 'factor-tab-gongyi', path: '/lineage/factor', title: '因子分析·工艺tab([设计]琥珀列+图例)', steps: [{ fill: _FACTOR_IDS, fillCss: '.bl-input input' }, { press: 'Enter', wait: 9000 }, { tab: '工艺', wait: 1800 }] },
+  { slug: 'factor-tab-lihua', path: '/lineage/factor', title: '因子分析·理化tab(LIMS+LABVIEW合并+数据来源列)', steps: [{ fill: _FACTOR_IDS, fillCss: '.bl-input input' }, { press: 'Enter', wait: 9000 }, { tab: '理化', wait: 1800 }] },
+  { slug: 'factor-tab-elec', path: '/lineage/factor', title: '因子分析·电性能tab', steps: [{ fill: _FACTOR_IDS, fillCss: '.bl-input input' }, { press: 'Enter', wait: 9000 }, { tab: '电性能', wait: 1800 }] },
+  { slug: 'factor-tab-yuanliao', path: '/lineage/factor', title: '因子分析·原料tab(谱系级联,批号首列)', steps: [{ fill: _FACTOR_IDS, fillCss: '.bl-input input' }, { press: 'Enter', wait: 9000 }, { tab: '原料', wait: 1800 }] },
+  { slug: 'factor-analysis', path: '/lineage/factor', title: '因子分析·归因结果(勾工艺X+Y=首效出榜)', steps: [{ fill: _FACTOR_IDS, fillCss: '.bl-input input' }, { press: 'Enter', wait: 9000 }, { tab: '工艺', wait: 1500 }, { button: '勾选本页全部列', wait: 800 }, { css: '.fx-w300', wait: 800 }, { selectOption: '首效', wait: 800 }, { button: '开始分析', wait: 9000 }] },
+  { slug: 'factor-insight', path: '/lineage/factor', title: '因子分析·列洞察抽屉(分布+趋势)', steps: [{ fill: _FACTOR_IDS, fillCss: '.bl-input input' }, { press: 'Enter', wait: 9000 }, { tab: '理化', wait: 1500 }, { css: '.fx-th-i', wait: 4000 }] },
+  { slug: 'factor-family-modal', path: '/lineage/factor', title: '因子分析·按产品族添加弹窗', steps: [{ button: '按产品族添加', wait: 2500 }] },
 ]
 
 async function runSteps(page, steps) {
   for (const s of steps) {
     if (s.fill != null) await page.locator(s.fillCss || 'input').first().fill(s.fill)
+    else if (s.press) await page.keyboard.press(s.press)
+    else if (s.selectOption)
+      // n-select:点选择器展开 → 点浮层选项(n-select 的选项在 body 挂载的浮层里)
+      await page.locator('.n-base-select-option', { hasText: s.selectOption }).first().click()
     else if (s.tab) await page.locator('.n-tabs-tab', { hasText: s.tab }).first().click()
     else if (s.step) await page.locator('.step-bar .step', { hasText: s.step }).first().click()
     else if (s.button)
